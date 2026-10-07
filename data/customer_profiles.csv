@@ -1,0 +1,301 @@
+customer_id,age_group,favorite_topic,preferred_content_type,preferred_feature,preferred_study_time,historical_engagement_level
+C001,25–34,Deep Learning,Videos,Projects,Evening,High
+C002,45+,Deep Learning,Projects,Practice Problems,Weekend,High
+C003,45+,NLP,Projects,Projects,Morning,High
+C004,18–24,Deep Learning,Quizzes,Interactive Labs,Afternoon,High
+C005,18–24,Machine Learning,Interactive Labs,Projects,Afternoon,Developing
+C006,18–24,Data Analysis,Projects,Interactive Labs,Weekend,Developing
+C007,18–24,Data Analysis,Projects,Learning Paths,Afternoon,Developing
+C008,45+,Machine Learning,Videos,Interactive Labs,Weekend,Developing
+C009,45+,NLP,Videos,Practice Problems,Evening,Medium
+C010,18–24,Python,Interactive Labs,Interactive Labs,Weekend,Medium
+C011,25–34,Machine Learning,Videos,Projects,Evening,Developing
+C012,35–44,NLP,Interactive Labs,Projects,Evening,High
+C013,35–44,Machine Learning,Interactive Labs,Learning Paths,Morning,Developing
+C014,25–34,NLP,Quizzes,Learning Paths,Morning,Medium
+C015,18–24,Machine Learning,Projects,Interactive Labs,Morning,Medium
+C016,35–44,Machine Learning,Interactive Labs,Practice Problems,Evening,High
+C017,25–34,Deep Learning,Quizzes,Projects,Afternoon,High
+C018,18–24,Machine Learning,Interactive Labs,Practice Problems,Morning,Developing
+C019,35–44,Python,Videos,Interactive Labs,Afternoon,Medium
+C020,35–44,Machine Learning,Videos,Practice Problems,Morning,High
+C021,25–34,Machine Learning,Videos,Learning Paths,Weekend,High
+C022,18–24,Python,Projects,Interactive Labs,Weekend,Developing
+C023,18–24,Deep Learning,Projects,Projects,Evening,High
+C024,18–24,NLP,Interactive Labs,Practice Problems,Morning,High
+C025,45+,Python,Interactive Labs,Learning Paths,Weekend,Medium
+C026,18–24,Machine Learning,Interactive Labs,Learning Paths,Afternoon,High
+C027,25–34,Data Analysis,Projects,Interactive Labs,Evening,High
+C028,25–34,Python,Projects,Learning Paths,Evening,High
+C029,35–44,Machine Learning,Videos,Projects,Weekend,High
+C030,18–24,Deep Learning,Videos,Interactive Labs,Afternoon,Developing
+C031,45+,NLP,Projects,Interactive Labs,Afternoon,Medium
+C032,45+,Machine Learning,Projects,Interactive Labs,Weekend,Medium
+C033,25–34,Machine Learning,Interactive Labs,Learning Paths,Afternoon,High
+C034,18–24,Python,Projects,Learning Paths,Evening,High
+C035,18–24,Deep Learning,Quizzes,Interactive Labs,Morning,Developing
+C036,35–44,Deep Learning,Videos,Practice Problems,Morning,Developing
+C037,45+,Deep Learning,Interactive Labs,Learning Paths,Weekend,High
+C038,35–44,Data Analysis,Projects,Interactive Labs,Evening,Developing
+C039,35–44,Python,Projects,Interactive Labs,Morning,Developing
+C040,45+,Deep Learning,Videos,Projects,Afternoon,High
+C041,35–44,Data Analysis,Interactive Labs,Projects,Evening,High
+C042,45+,NLP,Interactive Labs,Interactive Labs,Morning,High
+C043,45+,Python,Videos,Interactive Labs,Evening,High
+C044,25–34,Deep Learning,Videos,Practice Problems,Morning,High
+C045,45+,Deep Learning,Videos,Practice Problems,Morning,High
+C046,35–44,NLP,Quizzes,Projects,Morning,Developing
+C047,18–24,Data Analysis,Videos,Interactive Labs,Morning,Medium
+C048,45+,Data Analysis,Projects,Interactive Labs,Morning,Developing
+C049,18–24,Deep Learning,Videos,Interactive Labs,Weekend,Medium
+C050,45+,Data Analysis,Quizzes,Practice Problems,Morning,Medium
+C051,35–44,Python,Quizzes,Projects,Evening,Medium
+C052,45+,Machine Learning,Interactive Labs,Interactive Labs,Evening,High
+C053,25–34,Machine Learning,Quizzes,Practice Problems,Evening,High
+C054,25–34,Machine Learning,Quizzes,Learning Paths,Weekend,High
+C055,45+,Data Analysis,Projects,Interactive Labs,Afternoon,Medium
+C056,25–34,Data Analysis,Quizzes,Projects,Afternoon,Medium
+C057,18–24,Deep Learning,Videos,Interactive Labs,Evening,Developing
+C058,18–24,NLP,Interactive Labs,Learning Paths,Weekend,High
+C059,35–44,Data Analysis,Projects,Projects,Evening,Medium
+C060,45+,Data Analysis,Videos,Learning Paths,Weekend,High
+C061,35–44,Deep Learning,Interactive Labs,Learning Paths,Afternoon,High
+C062,18–24,Python,Quizzes,Practice Problems,Weekend,Medium
+C063,35–44,Python,Interactive Labs,Interactive Labs,Morning,Medium
+C064,25–34,NLP,Quizzes,Learning Paths,Morning,Medium
+C065,25–34,Deep Learning,Quizzes,Practice Problems,Morning,Medium
+C066,18–24,NLP,Interactive Labs,Projects,Weekend,Developing
+C067,35–44,Data Analysis,Projects,Projects,Morning,High
+C068,18–24,Data Analysis,Projects,Learning Paths,Evening,High
+C069,45+,NLP,Projects,Practice Problems,Evening,High
+C070,35–44,Data Analysis,Videos,Interactive Labs,Afternoon,Medium
+C071,25–34,Data Analysis,Quizzes,Projects,Afternoon,Medium
+C072,25–34,Deep Learning,Interactive Labs,Projects,Morning,High
+C073,18–24,Machine Learning,Videos,Projects,Weekend,Medium
+C074,25–34,Machine Learning,Quizzes,Learning Paths,Afternoon,High
+C075,45+,Data Analysis,Interactive Labs,Interactive Labs,Afternoon,Medium
+C076,35–44,Machine Learning,Projects,Projects,Morning,Developing
+C077,45+,NLP,Interactive Labs,Learning Paths,Evening,High
+C078,25–34,Data Analysis,Projects,Projects,Evening,Developing
+C079,18–24,Python,Quizzes,Learning Paths,Morning,High
+C080,35–44,Python,Projects,Interactive Labs,Weekend,Medium
+C081,45+,Data Analysis,Interactive Labs,Projects,Weekend,Medium
+C082,45+,Python,Projects,Practice Problems,Weekend,High
+C083,35–44,Deep Learning,Quizzes,Interactive Labs,Weekend,High
+C084,45+,Machine Learning,Interactive Labs,Interactive Labs,Weekend,Developing
+C085,35–44,Data Analysis,Quizzes,Practice Problems,Weekend,Medium
+C086,35–44,Data Analysis,Interactive Labs,Learning Paths,Weekend,High
+C087,45+,Deep Learning,Interactive Labs,Projects,Afternoon,High
+C088,45+,Deep Learning,Quizzes,Projects,Morning,High
+C089,45+,Deep Learning,Interactive Labs,Projects,Evening,Medium
+C090,18–24,Python,Projects,Projects,Afternoon,Medium
+C091,45+,Python,Interactive Labs,Learning Paths,Weekend,Developing
+C092,35–44,Machine Learning,Videos,Projects,Afternoon,Medium
+C093,35–44,Python,Projects,Interactive Labs,Evening,Medium
+C094,25–34,Deep Learning,Interactive Labs,Interactive Labs,Morning,High
+C095,45+,Deep Learning,Videos,Interactive Labs,Afternoon,High
+C096,35–44,Deep Learning,Projects,Practice Problems,Weekend,Developing
+C097,18–24,NLP,Projects,Learning Paths,Weekend,Medium
+C098,45+,Data Analysis,Interactive Labs,Practice Problems,Weekend,Developing
+C099,18–24,Deep Learning,Quizzes,Interactive Labs,Weekend,High
+C100,18–24,Deep Learning,Interactive Labs,Interactive Labs,Morning,High
+C101,25–34,NLP,Videos,Practice Problems,Morning,Developing
+C102,25–34,Data Analysis,Videos,Learning Paths,Morning,Medium
+C103,25–34,Data Analysis,Projects,Learning Paths,Afternoon,High
+C104,45+,Python,Interactive Labs,Learning Paths,Evening,Medium
+C105,45+,NLP,Interactive Labs,Projects,Evening,Medium
+C106,35–44,Deep Learning,Videos,Practice Problems,Evening,High
+C107,25–34,Data Analysis,Projects,Practice Problems,Morning,Developing
+C108,25–34,Python,Videos,Projects,Morning,Medium
+C109,35–44,Machine Learning,Interactive Labs,Practice Problems,Morning,Developing
+C110,25–34,Deep Learning,Videos,Practice Problems,Evening,High
+C111,45+,Data Analysis,Projects,Learning Paths,Weekend,Developing
+C112,18–24,Deep Learning,Quizzes,Learning Paths,Morning,Developing
+C113,35–44,NLP,Projects,Projects,Weekend,Developing
+C114,45+,Data Analysis,Interactive Labs,Learning Paths,Morning,High
+C115,45+,Python,Videos,Interactive Labs,Evening,Medium
+C116,25–34,Python,Videos,Interactive Labs,Morning,High
+C117,45+,Machine Learning,Projects,Practice Problems,Afternoon,High
+C118,25–34,NLP,Projects,Projects,Morning,Medium
+C119,35–44,Deep Learning,Interactive Labs,Learning Paths,Weekend,Medium
+C120,45+,Deep Learning,Projects,Practice Problems,Weekend,High
+C121,35–44,NLP,Projects,Learning Paths,Morning,Medium
+C122,18–24,Machine Learning,Quizzes,Projects,Afternoon,Medium
+C123,18–24,NLP,Quizzes,Practice Problems,Morning,Medium
+C124,25–34,Machine Learning,Videos,Practice Problems,Afternoon,Medium
+C125,45+,Data Analysis,Videos,Projects,Weekend,High
+C126,18–24,Python,Projects,Projects,Weekend,Medium
+C127,45+,Data Analysis,Projects,Learning Paths,Weekend,Medium
+C128,18–24,Machine Learning,Interactive Labs,Learning Paths,Morning,Developing
+C129,45+,Machine Learning,Quizzes,Projects,Evening,Medium
+C130,25–34,Data Analysis,Videos,Practice Problems,Morning,Medium
+C131,18–24,Data Analysis,Interactive Labs,Projects,Morning,Medium
+C132,25–34,NLP,Projects,Interactive Labs,Evening,High
+C133,45+,Deep Learning,Videos,Practice Problems,Afternoon,High
+C134,25–34,Data Analysis,Quizzes,Learning Paths,Weekend,Medium
+C135,25–34,NLP,Videos,Projects,Afternoon,Medium
+C136,45+,Deep Learning,Projects,Interactive Labs,Morning,Medium
+C137,25–34,NLP,Quizzes,Learning Paths,Afternoon,High
+C138,18–24,Machine Learning,Videos,Learning Paths,Evening,Developing
+C139,35–44,Python,Videos,Projects,Weekend,High
+C140,18–24,Machine Learning,Quizzes,Projects,Afternoon,High
+C141,45+,NLP,Videos,Learning Paths,Weekend,Medium
+C142,18–24,Python,Interactive Labs,Learning Paths,Morning,High
+C143,18–24,Python,Projects,Interactive Labs,Evening,Medium
+C144,25–34,NLP,Projects,Projects,Morning,Medium
+C145,18–24,Python,Interactive Labs,Learning Paths,Evening,Medium
+C146,18–24,Deep Learning,Quizzes,Projects,Morning,High
+C147,45+,Data Analysis,Videos,Learning Paths,Evening,Medium
+C148,45+,Python,Videos,Interactive Labs,Morning,High
+C149,45+,Machine Learning,Interactive Labs,Interactive Labs,Evening,Developing
+C150,18–24,Deep Learning,Interactive Labs,Practice Problems,Evening,Medium
+C151,35–44,NLP,Projects,Interactive Labs,Weekend,Developing
+C152,35–44,Python,Videos,Learning Paths,Weekend,Developing
+C153,25–34,Deep Learning,Interactive Labs,Projects,Evening,Medium
+C154,35–44,Python,Videos,Learning Paths,Weekend,High
+C155,18–24,NLP,Projects,Practice Problems,Morning,High
+C156,18–24,Python,Interactive Labs,Learning Paths,Afternoon,Medium
+C157,45+,Python,Quizzes,Learning Paths,Weekend,Developing
+C158,45+,NLP,Quizzes,Practice Problems,Evening,High
+C159,35–44,Data Analysis,Projects,Practice Problems,Morning,High
+C160,35–44,Machine Learning,Videos,Learning Paths,Afternoon,Developing
+C161,18–24,Python,Videos,Projects,Weekend,Developing
+C162,35–44,Python,Interactive Labs,Interactive Labs,Afternoon,Medium
+C163,35–44,NLP,Projects,Practice Problems,Weekend,Developing
+C164,18–24,NLP,Quizzes,Interactive Labs,Evening,Medium
+C165,35–44,Machine Learning,Interactive Labs,Learning Paths,Afternoon,Developing
+C166,35–44,NLP,Quizzes,Interactive Labs,Weekend,High
+C167,25–34,Data Analysis,Quizzes,Practice Problems,Afternoon,High
+C168,35–44,Data Analysis,Interactive Labs,Learning Paths,Evening,High
+C169,18–24,Deep Learning,Quizzes,Projects,Evening,High
+C170,25–34,NLP,Projects,Learning Paths,Afternoon,Developing
+C171,45+,Deep Learning,Videos,Practice Problems,Morning,High
+C172,18–24,Python,Projects,Practice Problems,Evening,High
+C173,45+,Machine Learning,Interactive Labs,Learning Paths,Afternoon,Medium
+C174,18–24,Data Analysis,Videos,Projects,Weekend,High
+C175,18–24,Python,Interactive Labs,Interactive Labs,Weekend,High
+C176,45+,Python,Videos,Learning Paths,Evening,High
+C177,45+,NLP,Quizzes,Practice Problems,Morning,High
+C178,35–44,NLP,Videos,Projects,Weekend,Developing
+C179,18–24,Python,Quizzes,Projects,Weekend,Medium
+C180,25–34,NLP,Projects,Practice Problems,Evening,High
+C181,18–24,Data Analysis,Interactive Labs,Projects,Weekend,High
+C182,25–34,Python,Interactive Labs,Interactive Labs,Afternoon,Developing
+C183,35–44,Data Analysis,Projects,Learning Paths,Evening,Developing
+C184,35–44,Machine Learning,Quizzes,Projects,Evening,Medium
+C185,25–34,Machine Learning,Quizzes,Learning Paths,Morning,High
+C186,25–34,Machine Learning,Interactive Labs,Projects,Morning,Developing
+C187,18–24,Data Analysis,Interactive Labs,Interactive Labs,Morning,Developing
+C188,18–24,Data Analysis,Quizzes,Interactive Labs,Evening,Medium
+C189,45+,Python,Videos,Interactive Labs,Weekend,Medium
+C190,25–34,Machine Learning,Projects,Learning Paths,Morning,High
+C191,45+,Python,Videos,Learning Paths,Morning,High
+C192,45+,NLP,Videos,Projects,Morning,Medium
+C193,18–24,Python,Videos,Interactive Labs,Evening,High
+C194,35–44,Deep Learning,Projects,Practice Problems,Weekend,Developing
+C195,25–34,Data Analysis,Videos,Practice Problems,Morning,Medium
+C196,45+,Data Analysis,Videos,Learning Paths,Evening,Medium
+C197,35–44,Data Analysis,Videos,Learning Paths,Morning,High
+C198,45+,Machine Learning,Projects,Projects,Morning,High
+C199,35–44,Deep Learning,Videos,Projects,Morning,Medium
+C200,25–34,Deep Learning,Quizzes,Interactive Labs,Morning,High
+C201,45+,Data Analysis,Videos,Interactive Labs,Weekend,Developing
+C202,35–44,Python,Interactive Labs,Learning Paths,Weekend,Medium
+C203,18–24,Data Analysis,Videos,Learning Paths,Weekend,Developing
+C204,25–34,NLP,Videos,Projects,Weekend,High
+C205,25–34,Python,Videos,Projects,Weekend,High
+C206,35–44,Deep Learning,Interactive Labs,Projects,Evening,Medium
+C207,25–34,Data Analysis,Videos,Projects,Evening,High
+C208,25–34,NLP,Videos,Practice Problems,Weekend,Medium
+C209,18–24,Python,Quizzes,Projects,Afternoon,Medium
+C210,25–34,NLP,Projects,Interactive Labs,Morning,High
+C211,45+,NLP,Projects,Projects,Weekend,Medium
+C212,25–34,NLP,Interactive Labs,Learning Paths,Weekend,High
+C213,45+,NLP,Videos,Practice Problems,Afternoon,Medium
+C214,45+,Machine Learning,Videos,Projects,Afternoon,Medium
+C215,45+,Deep Learning,Videos,Practice Problems,Evening,Medium
+C216,25–34,NLP,Interactive Labs,Practice Problems,Morning,Developing
+C217,35–44,Python,Interactive Labs,Projects,Morning,Developing
+C218,35–44,Python,Videos,Projects,Afternoon,Medium
+C219,25–34,NLP,Interactive Labs,Learning Paths,Afternoon,Medium
+C220,45+,NLP,Videos,Projects,Morning,Developing
+C221,45+,Python,Interactive Labs,Interactive Labs,Morning,High
+C222,45+,Python,Projects,Interactive Labs,Afternoon,Medium
+C223,35–44,Python,Quizzes,Interactive Labs,Weekend,Medium
+C224,25–34,Python,Quizzes,Learning Paths,Afternoon,Medium
+C225,25–34,Deep Learning,Quizzes,Projects,Evening,Developing
+C226,35–44,Deep Learning,Projects,Interactive Labs,Afternoon,Medium
+C227,35–44,Data Analysis,Videos,Learning Paths,Evening,Medium
+C228,18–24,Data Analysis,Interactive Labs,Practice Problems,Afternoon,High
+C229,25–34,Deep Learning,Projects,Projects,Afternoon,High
+C230,18–24,Deep Learning,Videos,Practice Problems,Morning,Medium
+C231,35–44,Deep Learning,Videos,Projects,Evening,Developing
+C232,45+,Deep Learning,Projects,Learning Paths,Weekend,Medium
+C233,18–24,NLP,Interactive Labs,Learning Paths,Afternoon,High
+C234,18–24,Machine Learning,Videos,Practice Problems,Afternoon,Medium
+C235,35–44,Data Analysis,Projects,Practice Problems,Evening,High
+C236,18–24,Data Analysis,Videos,Interactive Labs,Morning,Developing
+C237,35–44,Machine Learning,Videos,Interactive Labs,Evening,High
+C238,25–34,Deep Learning,Videos,Practice Problems,Evening,High
+C239,25–34,Data Analysis,Quizzes,Interactive Labs,Afternoon,Developing
+C240,35–44,Python,Videos,Learning Paths,Weekend,Medium
+C241,18–24,Machine Learning,Projects,Interactive Labs,Afternoon,High
+C242,35–44,Data Analysis,Videos,Interactive Labs,Weekend,High
+C243,18–24,Data Analysis,Interactive Labs,Learning Paths,Morning,Medium
+C244,35–44,Deep Learning,Interactive Labs,Projects,Morning,Developing
+C245,45+,NLP,Videos,Interactive Labs,Morning,High
+C246,35–44,Python,Interactive Labs,Learning Paths,Afternoon,Medium
+C247,45+,Machine Learning,Interactive Labs,Projects,Evening,Developing
+C248,35–44,Data Analysis,Videos,Projects,Morning,Medium
+C249,18–24,NLP,Videos,Practice Problems,Evening,High
+C250,25–34,NLP,Quizzes,Practice Problems,Afternoon,Developing
+C251,18–24,Machine Learning,Quizzes,Practice Problems,Morning,Medium
+C252,35–44,Machine Learning,Projects,Projects,Evening,Developing
+C253,18–24,Data Analysis,Videos,Interactive Labs,Afternoon,High
+C254,25–34,Data Analysis,Quizzes,Practice Problems,Afternoon,Developing
+C255,18–24,NLP,Videos,Learning Paths,Evening,High
+C256,25–34,Python,Quizzes,Practice Problems,Morning,Medium
+C257,18–24,Machine Learning,Videos,Learning Paths,Morning,High
+C258,45+,Python,Videos,Interactive Labs,Morning,Medium
+C259,25–34,Python,Quizzes,Interactive Labs,Weekend,Medium
+C260,18–24,Deep Learning,Interactive Labs,Projects,Weekend,High
+C261,18–24,Python,Quizzes,Practice Problems,Weekend,Medium
+C262,25–34,Data Analysis,Videos,Practice Problems,Morning,Developing
+C263,18–24,Python,Projects,Interactive Labs,Afternoon,High
+C264,35–44,Machine Learning,Videos,Practice Problems,Morning,Medium
+C265,35–44,Deep Learning,Interactive Labs,Projects,Morning,Developing
+C266,18–24,NLP,Projects,Learning Paths,Weekend,High
+C267,45+,Python,Projects,Interactive Labs,Weekend,High
+C268,35–44,Python,Projects,Practice Problems,Afternoon,Medium
+C269,18–24,Python,Videos,Practice Problems,Weekend,Developing
+C270,25–34,Data Analysis,Quizzes,Interactive Labs,Afternoon,Developing
+C271,45+,Deep Learning,Interactive Labs,Interactive Labs,Weekend,High
+C272,35–44,Deep Learning,Videos,Projects,Morning,Medium
+C273,45+,Machine Learning,Projects,Practice Problems,Weekend,Medium
+C274,18–24,Python,Videos,Interactive Labs,Afternoon,High
+C275,45+,Deep Learning,Interactive Labs,Interactive Labs,Weekend,Developing
+C276,25–34,Python,Videos,Practice Problems,Evening,High
+C277,35–44,NLP,Projects,Interactive Labs,Weekend,High
+C278,18–24,Machine Learning,Videos,Interactive Labs,Weekend,Medium
+C279,35–44,Python,Quizzes,Interactive Labs,Morning,Medium
+C280,45+,Data Analysis,Interactive Labs,Practice Problems,Weekend,High
+C281,25–34,Python,Projects,Learning Paths,Afternoon,Developing
+C282,18–24,NLP,Videos,Learning Paths,Weekend,Medium
+C283,18–24,NLP,Quizzes,Projects,Afternoon,Developing
+C284,45+,Python,Interactive Labs,Practice Problems,Morning,High
+C285,25–34,Machine Learning,Projects,Practice Problems,Evening,High
+C286,18–24,Deep Learning,Quizzes,Interactive Labs,Morning,High
+C287,35–44,Deep Learning,Interactive Labs,Learning Paths,Weekend,Medium
+C288,35–44,Machine Learning,Interactive Labs,Learning Paths,Morning,Developing
+C289,35–44,Data Analysis,Interactive Labs,Projects,Evening,High
+C290,35–44,Data Analysis,Interactive Labs,Projects,Evening,Developing
+C291,45+,Data Analysis,Interactive Labs,Learning Paths,Morning,Medium
+C292,18–24,Deep Learning,Quizzes,Interactive Labs,Evening,Medium
+C293,45+,Data Analysis,Videos,Practice Problems,Evening,Medium
+C294,35–44,Deep Learning,Videos,Learning Paths,Evening,High
+C295,35–44,NLP,Projects,Practice Problems,Morning,High
+C296,25–34,Python,Quizzes,Interactive Labs,Weekend,Medium
+C297,35–44,Machine Learning,Interactive Labs,Interactive Labs,Weekend,Medium
+C298,25–34,Deep Learning,Interactive Labs,Projects,Morning,High
+C299,45+,Data Analysis,Quizzes,Practice Problems,Afternoon,Developing
+C300,25–34,NLP,Interactive Labs,Learning Paths,Morning,Medium

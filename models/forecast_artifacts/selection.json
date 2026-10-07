@@ -1,0 +1,16 @@
+{
+  "selected_model": "exp_smoothing",
+  "walk_forward_metrics": {
+    "naive": {
+      "mae": 103.72977777777777,
+      "rmse": 143.79628845078798,
+      "mape": 133.92868340305304
+    },
+    "exp_smoothing": {
+      "mae": 88.81702564332774,
+      "rmse": 121.55847353260442,
+      "mape": 138.18073847969058
+    }
+  },
+  "interval_abs_error_p90": 207.4393846187376
+}

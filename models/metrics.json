@@ -1,0 +1,59 @@
+{
+  "classification": {
+    "selected_model": "Logistic Regression",
+    "holdout_size": 75,
+    "customer_split": true,
+    "models": {
+      "Logistic Regression": {
+        "accuracy": 0.7866666666666666,
+        "precision": 0.6875,
+        "recall": 0.7857142857142857,
+        "f1": 0.7333333333333333,
+        "roc_auc": 0.8799392097264438
+      },
+      "Random Forest": {
+        "accuracy": 0.7733333333333333,
+        "precision": 0.7391304347826086,
+        "recall": 0.6071428571428571,
+        "f1": 0.6666666666666666,
+        "roc_auc": 0.8297872340425533
+      }
+    }
+  },
+  "clustering": {
+    "selected_model": "K-Means",
+    "kmeans_clusters": 5,
+    "kmeans_silhouette": 0.17498994036745907,
+    "dbscan_clusters": 2,
+    "dbscan_noise_points": 233,
+    "dbscan_silhouette": 0.19330833904516462,
+    "selection_reason": "K-Means gives every customer a stable segment for the map; DBSCAN is compared as a density-based alternative."
+  },
+  "forecasting": {
+    "selected_model": "exp_smoothing",
+    "walk_forward_cutoffs": [
+      20,
+      24,
+      28
+    ],
+    "metrics": {
+      "naive": {
+        "mae": 103.72977777777777,
+        "rmse": 143.79628845078798,
+        "mape": 133.92868340305304
+      },
+      "exp_smoothing": {
+        "mae": 88.81702564332774,
+        "rmse": 121.55847353260442,
+        "mape": 138.18073847969058
+      }
+    },
+    "interval_abs_error_p90": 207.4393846187376
+  },
+  "dataset": {
+    "customers": 300,
+    "weekly_records": 9600,
+    "churn_rate": 0.38,
+    "weeks_per_customer": 32
+  }
+}

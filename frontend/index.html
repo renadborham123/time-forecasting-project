@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d13"><title>ChurnScope AI · Customer Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#map"><span class="brand-mark">⌁</span><span>ChurnScope <b>AI</b><small>LEARNING INTELLIGENCE</small></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav><a class="nav-item active" href="#map"><span>◉</span> Customer Map</a><a class="nav-item" href="#performance"><span>▥</span> Model Performance</a><a class="nav-item" href="#pipeline"><span>⌘</span> About Pipeline</a></nav>
+    <div class="side-rule"></div><div class="side-label">RISK DISTRIBUTION <span class="source tiny">ML MODEL</span></div>
+    <div class="risk-mini"><div><i class="dot stable"></i><span>Stable</span><b id="side-stable">—</b></div><div><i class="dot watch"></i><span>Watchlist</span><b id="side-watch">—</b></div><div><i class="dot at-risk"></i><span>At risk</span><b id="side-risk">—</b></div><div><i class="dot critical"></i><span>Critical</span><b id="side-critical">—</b></div></div>
+    <div class="sidebar-bottom"><div class="system-status"><i></i><span>MODEL PIPELINE READY</span></div><div class="version">ACADEMIC DEMO <span>·</span> V1.0</div></div>
+  </aside>
+
+  <main class="main-column">
+    <header class="topbar"><div class="crumb">INTELLIGENCE <span>/</span> <b id="crumb-current">CUSTOMER MAP</b></div><div class="top-right"><span class="data-state"><i></i> MODEL PIPELINE CONNECTED</span><button class="icon-button" title="Refresh data" id="refresh">↻</button><div class="avatar">CS</div></div></header>
+    <div class="content-scroll">
+      <section class="page-heading" id="map"><div><div class="eyebrow"><span class="pulse"></span> SUBSCRIPTION LEARNING PLATFORM</div><h1>Customer Intelligence <em>Map</em></h1><p>See who your learners are, how they behave, and where churn risk is emerging.</p></div><div class="demo-select"><label for="demo-customer">DEMO CUSTOMERS</label><select id="demo-customer"><option value="">Choose a customer</option></select></div></section>
+
+      <section class="map-card glass-card">
+        <div class="card-head"><div><div class="section-kicker">BEHAVIORAL EMBEDDING <span class="source">CUSTOMER DATA</span></div><h2>Customer Map</h2><p id="map-subtitle">Each point is one learner · Similar behavior forms nearby groups</p></div><div class="map-actions"><button id="segment-btn" class="button secondary"><span class="button-icon">⌗</span> Segment customers</button><button id="classify-btn" class="button primary" disabled><span>◈</span> Run classification</button></div></div>
+        <div class="map-toolbar"><div class="map-legend"><span><i class="legend-dot neutral"></i>Unclassified</span><span><i class="legend-ring watch-ring"></i>Watchlist</span><span><i class="legend-ring risk-ring"></i>At risk</span><span><i class="legend-ring critical-ring"></i>Critical</span></div><div class="map-filters"><select id="risk-filter" aria-label="Filter by risk"><option value="ALL">All risk levels</option><option>STABLE</option><option>WATCHLIST</option><option>AT RISK</option><option>CRITICAL</option></select><select id="segment-filter" aria-label="Filter by segment"><option value="ALL">All segments</option></select></div></div>
+        <div class="map-stage"><div class="map-grid"></div><svg id="customer-map" role="img" aria-label="Interactive customer behavior embedding"></svg><div class="map-axis axis-x">EMBEDDING DIMENSION 1 <span>· FOR VISUALIZATION</span></div><div class="map-axis axis-y">EMBEDDING DIMENSION 2</div><div class="map-tooltip" id="map-tooltip"></div><div class="map-empty" id="map-empty"><span>⌗</span><b>Ready to reveal customer segments</b><small>Start with 300 learner profiles from the generated dataset</small></div></div>
+        <div class="map-footer"><div class="map-count"><b id="customer-count">300</b> customers <span class="sep">·</span><span id="filter-count">Showing all</span></div><div class="cluster-legend" id="cluster-legend"></div><div class="map-hint">SELECT A POINT TO INSPECT <span>↗</span></div></div>
+      </section>
+
+      <section class="customer-workspace" id="customer-workspace">
+        <div class="workspace-heading"><div><div class="eyebrow">CUSTOMER INTELLIGENCE WORKSPACE</div><h2 id="customer-title">Select a customer to inspect their evidence</h2></div><span class="source">LIVE MODEL OUTPUTS</span></div>
+        <div class="summary-grid">
+          <article class="metric-card"><div class="metric-label">CHURN PROBABILITY <span class="source">ML MODEL</span></div><div class="metric-value" id="churn-value">—<small>%</small></div><div class="metric-foot" id="risk-label">Select a learner on the map</div></article>
+          <article class="metric-card"><div class="metric-label">USAGE CHANGE <span class="source forecast">FORECAST</span></div><div class="metric-value" id="usage-change">—<small>%</small></div><div class="metric-foot">Expected over the next 4 weeks</div></article>
+          <article class="metric-card"><div class="metric-label">BEHAVIOR SEGMENT <span class="source customer">CUSTOMER DATA</span></div><div class="metric-value segment-value" id="segment-value">—</div><div class="metric-foot" id="segment-foot">Unsupervised customer group</div></article>
+          <article class="metric-card"><div class="metric-label">CURRENT WEEKLY USAGE <span class="source forecast">FORECAST</span></div><div class="metric-value" id="current-usage">—<small> min</small></div><div class="metric-foot">Average of the last 4 weeks</div></article>
+        </div>
+        <div class="detail-grid">
+          <article class="detail-card glass-card forecast-card"><div class="detail-head"><div><div class="section-kicker">ENGAGEMENT TRAJECTORY <span class="source forecast">FORECAST</span></div><h3>Usage forecast</h3></div><span class="model-chip" id="forecast-model">MODEL · —</span></div><div class="chart-wrap"><canvas id="forecast-chart" aria-label="Historical and forecast weekly usage"></canvas></div><div class="chart-legend"><span><i class="line-key history-key"></i>History</span><span><i class="line-key forecast-key"></i>Forecast</span><span class="today-key">TODAY <b>│</b> FORECAST</span></div></article>
+          <article class="detail-card glass-card shap-card"><div class="detail-head"><div><div class="section-kicker">PREDICTION DRIVERS <span class="source shap">SHAP</span></div><h3>Why this prediction?</h3></div><span class="mini-info" title="Positive SHAP values increase the model score; negative values reduce it">i</span></div><div id="shap-list" class="shap-list"><div class="empty-note">Select a customer to load actual SHAP contributions.</div></div><div class="shap-caption">Contribution to model output <span>← lowers risk · raises risk →</span></div></article>
+        </div>
+        <div class="detail-grid lower-grid">
+          <article class="detail-card glass-card profile-card"><div class="detail-head"><div><div class="section-kicker">PREFERENCE PROFILE <span class="source customer">CUSTOMER DATA</span></div><h3>Learner preferences</h3></div><div class="profile-avatar">✳</div></div><div class="profile-grid" id="profile-grid"><div class="empty-note">Profile preferences appear when a learner is selected.</div></div></article>
+          <article class="detail-card glass-card action-card"><div class="detail-head"><div><div class="section-kicker">RETENTION DECISION <span class="source ai">AI AGENT</span></div><h3>Recommended action</h3></div><span id="action-provider" class="model-chip">AWAITING CUSTOMER</span></div><div id="action-content" class="action-content"><div class="empty-note">Select a customer and ask the agent for a recommendation.</div></div><div class="action-buttons"><button id="execute-action" class="button primary" disabled>Execute action <span>↗</span></button><button id="reject-action" class="button quiet" disabled>Reject</button></div><div id="action-toast" class="action-toast"></div></article>
+        </div>
+      </section>
+
+      <section id="performance" class="performance-section glass-card"><div class="detail-head"><div><div class="section-kicker">EVALUATION <span class="source">HELD-OUT / WALK-FORWARD</span></div><h2>Model performance</h2></div><span class="model-chip">CUSTOMER-LEVEL HOLDOUT</span></div><div id="metrics-grid" class="metrics-grid"><div class="empty-note">Loading model evaluation…</div></div></section>
+      <section id="pipeline" class="pipeline-section"><div class="section-kicker">EVIDENCE PIPELINE</div><div class="pipeline-steps"><div><b>01</b><strong>Cluster</strong><small>Unsupervised behavior groups</small></div><i>→</i><div><b>02</b><strong>Classify</strong><small>Churn probability</small></div><i>→</i><div><b>03</b><strong>Forecast</strong><small>Next 4 weeks of usage</small></div><i>→</i><div><b>04</b><strong>Explain</strong><small>Customer level SHAP</small></div><i>→</i><div><b>05</b><strong>Recommend</strong><small>Evidence grounded agent</small></div></div></section>
+      <footer>CHURNSCOPE AI <span>·</span> ACADEMIC DEMONSTRATION <span>·</span> SYNTHETIC LEARNER DATA</footer>
+    </div>
+  </main>
+
+  <aside class="agent-panel">
+    <div class="agent-head"><div class="agent-icon">✳</div><div><b>AI Retention Agent</b><small><i></i><span id="agent-status">Grounded in model evidence</span></small></div><button class="more-button" title="Agent information">···</button></div>
+    <div class="agent-context" id="agent-context"><span class="context-pip"></span><div><small>CURRENT CONTEXT</small><b id="context-customer">No customer selected</b></div><span class="source tiny">CUSTOMER DATA</span></div>
+    <div class="trace" id="trace"><div class="trace-heading">EVIDENCE TRACE <span>LIVE</span></div><div class="trace-row"><i>✓</i> Customer context loaded</div><div class="trace-row"><i>✓</i> Churn model evidence ready</div><div class="trace-row"><i>✓</i> Forecast and SHAP available</div><div class="trace-row"><i>✓</i> Eligible actions checked</div></div>
+    <div class="chat-body" id="chat-body"><div class="agent-message"><div class="agent-small-icon">✳</div><div><div class="message-author">RETENTION AGENT <span>· READY</span></div><p>I can explain churn risk, summarize model evidence, and suggest an eligible next step. Choose a learner on the map to begin.</p></div></div><div class="suggestion-wrap"><small>TRY ASKING</small><button class="suggestion">Why is this customer at risk?</button><button class="suggestion">Show me the evidence</button><button class="suggestion">What should we do?</button><button class="suggestion">Write a personalized message</button></div></div>
+    <div class="chat-compose"><div class="compose-note" id="compose-note">AI uses verified model and profile evidence</div><form id="chat-form"><textarea id="chat-input" rows="1" placeholder="Ask about this customer…" disabled></textarea><button id="send-chat" type="submit" disabled aria-label="Send message">↑</button></form><div class="chat-disclaimer">Local model responses can be imperfect. Verify recommendations against evidence.</div></div>
+  </aside>
+</div>
+<div class="toast" id="toast"></div>
+<script src="/static/charts.js"></script><script src="/static/customer-map.js"></script><script src="/static/chat.js"></script><script src="/static/app.js"></script>
+</body></html>
