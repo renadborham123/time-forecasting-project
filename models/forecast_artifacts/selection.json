@@ -1,16 +1,47 @@
 {
   "selected_model": "exp_smoothing",
+  "selection_rule": "lowest walk-forward MAE, with RMSE and sMAPE reported as secondary evidence",
   "walk_forward_metrics": {
     "naive": {
-      "mae": 103.72977777777777,
-      "rmse": 143.79628845078798,
-      "mape": 133.92868340305304
+      "mae": 98.96444444444444,
+      "rmse": 138.0397839795148,
+      "smape": 75.9395368371634,
+      "mase": 0.8808921940243597,
+      "mape": 161.8339772063814,
+      "fallback_folds": 0,
+      "evaluation_points": 3600
     },
     "exp_smoothing": {
-      "mae": 88.81702564332774,
-      "rmse": 121.55847353260442,
-      "mape": 138.18073847969058
+      "mae": 85.5300068573319,
+      "rmse": 119.61255487982665,
+      "smape": 68.47464708117319,
+      "mase": 0.7717338157924484,
+      "mape": 174.07438714496044,
+      "fallback_folds": 0,
+      "evaluation_points": 3600
+    },
+    "arima": {
+      "mae": 92.77816313824519,
+      "rmse": 128.93379438194262,
+      "smape": 71.94076959644687,
+      "mase": 0.8283825067954464,
+      "mape": 168.45820009366074,
+      "fallback_folds": 0,
+      "evaluation_points": 3600
+    },
+    "lag_regression": {
+      "mae": 97.31221889890821,
+      "rmse": 129.5478597677,
+      "smape": 70.95168455928163,
+      "mase": 0.8785934199561679,
+      "mape": 233.83644207768373,
+      "fallback_folds": 0,
+      "evaluation_points": 3600
     }
   },
-  "interval_abs_error_p90": 207.4393846187376
+  "interval_abs_error_p90": 190.71655197440134,
+  "fallback_order": [
+    "exp_smoothing",
+    "naive"
+  ]
 }

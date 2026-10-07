@@ -2,9 +2,17 @@
 
 **Forecast → Classify → Explain → Act**
 
-ChurnScope AI is an academic demonstration for a subscription-based learning platform. It identifies learners with changing engagement, estimates their cancellation risk, forecasts four weeks of usage, explains a model score with SHAP, and grounds a local AI retention agent in that evidence and recorded preferences.
+ChurnScope AI is an academic demonstration for a subscription learning platform. It uses fixed-seed synthetic data to explore learner behavior, estimate a defined churn outcome, forecast usage, explain classifier scores, and select policy-eligible retention suggestions.
 
-The data is synthetic and generated with a fixed seed. This is a classroom demo, not a production retention system.
+## What is predicted?
+
+- **Classification:** Will this learner churn in the next four weeks? We observe behavior through week 28 and predict whether cancellation occurs during weeks 29–32. Classifier features use observations through week 28 only; the customer-level target is stored separately in `data/customer_churn_targets.csv`.
+- **Forecast:** What will weekly usage look like over the next four weeks? The app projects weeks 33–36 from the available 32-week history. Walk-forward evaluation separately uses cutoffs 20 → 21–24, 24 → 25–28, and 28 → 29–32.
+- **Clustering:** Which learners show similar historical behavior? K-Means provides complete, stable coverage for visualization and behavioral profiling. DBSCAN is retained as a density-based comparison.
+- **SHAP:** Which features most influenced the classifier's prediction? Contributions explain model output; they are not percentages, causes, or proof of causality.
+- **Agent:** What intervention is reasonable based on verified evidence and learner preferences? The agent chooses only from a deterministic eligible-action list. Simulated execution sends no real messages.
+
+Clustering, classification, forecasting, and LLM reasoning are separate tasks. Map position represents behavioral similarity; risk appearance comes from the churn classifier.
 
 ## Quick start
 
@@ -17,71 +25,63 @@ pip install -r requirements.txt
 python run.py
 ```
 
-Open [http://localhost:8000](http://localhost:8000). `run.py` trains and exports the models on first launch if the artifacts are absent, then starts the FastAPI server and serves the frontend from that same process.
+Open [http://localhost:8000](http://localhost:8000). `run.py` starts FastAPI and serves the frontend from the same process. If model artifacts are absent, it first trains and exports the shared pipeline.
 
-## Demo walkthrough
-
-1. Press **Segment customers** to animate the 300 learners into behavior groups.
-2. Press **Run classification** to add model-derived risk tiers and update the counters.
-3. Use the filters or the demo customer selector. C001–C004 are stable, gradually disengaging, high-risk, and recovering example histories.
-4. Inspect the selected learner’s churn score, next-four-week usage forecast, SHAP contributions, and preference profile.
-5. Ask the retention agent why the learner is at risk or what action is suitable. The deterministic fallback works without Ollama.
-6. **Execute action** only records a simulated in-memory event; it never sends email or messages.
-
-## Academic notebook
-
-Open [notebooks/churnscope_pipeline.ipynb](notebooks/churnscope_pipeline.ipynb) in Jupyter and run the cells from top to bottom. The notebook explains the problem, explores data, builds features, compares clustering and classifiers, evaluates walk-forward forecasts, inspects SHAP values, and calls the shared exporter. The app loads the exact `models/pipeline.joblib` file produced by that exporter; API requests do not train substitute models.
-
-To regenerate source data and model artifacts from the fixed seed:
+To regenerate fixed-seed data and models:
 
 ```powershell
 python scripts/generate_data.py
 python scripts/export_models.py
 ```
 
+## Demo walkthrough
+
+1. Press **Segment customers** to reveal exploratory behavioral groups for 300 learners.
+2. Press **Run classification** to add model-derived risk tiers.
+3. Filter by risk or segment, or choose C001–C004 from the demo selector.
+4. Inspect churn probability, the week 33–36 usage forecast, customer-specific SHAP contributions, and recorded preferences.
+5. Ask the agent for evidence or an eligible recommendation. Without Ollama, a deterministic policy still works.
+6. **Execute action** records a simulated in-memory event only; it never sends email or messages.
+
 ## Dataset and methodology
 
-- `data/customer_weekly_history.csv`: 300 learners × 32 weeks, including sessions, active days, usage minutes, lessons, labs, searches, support requests, inactivity, subscription age, and cancellation target.
-- `data/customer_profiles.csv`: separately generated learning preferences and engagement profile.
-- `data/generated/customer_predictions.csv`: model probabilities, behavioral segment, and 2D map coordinates.
-- Behavior patterns include stable, gradual decline, sudden decline, irregular, dormant, and recovering engagement. Outcomes overlap and depend on engagement history; demographic and profile fields do not determine churn.
-- The label represents cancellation in the four-week window after the final observed week. Classifier inputs summarize only observed records. The split is by customer to prevent weekly-row leakage.
-- K-Means provides complete, stable groups for the map. DBSCAN is compared as a density-based alternative and may mark many customers as noise. PCA is used only for the 2D visualization.
-- Logistic Regression and Random Forest are evaluated on a customer-level holdout using accuracy, precision, recall, F1, and ROC-AUC. Risk thresholds are centralized in `backend/config.py`.
-- Naive and damped-trend exponential smoothing are evaluated with three walk-forward cutoffs. The selected method minimizes validation MAE. Forecast bounds use the 90th percentile absolute walk-forward error; they are approximate empirical bounds, not a formal calibrated interval.
-- SHAP values describe the fitted classifier’s output and are not causal explanations.
+- `data/customer_weekly_history.csv`: 300 learners × 32 weeks of sessions, active days, usage, lessons, labs, searches, support requests, inactivity, and subscription age. Each subscription starts at one age and increases weekly.
+- `data/customer_profiles.csv`: separately generated preferences and engagement profile.
+- `data/customer_churn_targets.csv`: one target per customer, derived from a synthetic cancellation event during weeks 29–32.
+- `data/generated/customer_predictions.csv`: fitted probabilities, behavioral segments, and 2D map coordinates.
+- Churn propensity is generated from behavior available through the week-28 cutoff with overlapping stochastic outcomes. Weeks 29–32 are never used to build classifier features.
+- A customer-level holdout compares Logistic Regression and Random Forest using accuracy, precision, recall, F1, and ROC-AUC. The selected classifier is refit on all week-28 snapshots for the demo; risk thresholds are centralized in `backend/config.py`.
+- K-Means cluster labels use observed cluster profiles: recent sessions and usage, trends, volatility, inactivity, active days, and lesson completion. The silhouette score is reported as evidence of overlap, not hidden. DBSCAN may mark many points as noise. K-Means is preferred for full map coverage and stable profiling, not claimed as objectively superior.
+- Forecast candidates are naive, damped Exponential Smoothing, ARIMA(1,1,0), and Ridge lag regression. They are compared with chronological walk-forward validation. MAE selects the model; RMSE and sMAPE provide secondary evidence. MAPE is unstable near zero usage and is not the selection metric. Results are in `models/metrics.json`.
+- Customer forecasts use a robust fallback chain: selected global model, Exponential Smoothing, then naive. The API reports both the global selection and the method actually used for that customer.
+- The 90th percentile absolute walk-forward error is an empirical forecast band, not a formally calibrated prediction interval.
 
-## Evidence vs AI reasoning
+## Evidence and agent behavior
 
-- **ML model** → churn probability and risk tier.
-- **Forecast model** → future weekly usage and change.
-- **SHAP** → contributions to the churn prediction.
-- **Customer data** → preferences and historical engagement profile.
-- **GPT-OSS** → an allowed action choice and personalized wording from supplied evidence.
+The QA prompt answers evidence questions in natural language. A separate recommendation prompt requires JSON with `action`, `reason`, and `message`. The action must come from the eligible action catalog. Numeric evidence is checked against the classifier, forecast, SHAP contributions, recorded profile, and action policy so a catalog phrase such as “7-day trial” remains valid.
 
-The local agent must not invent probability, history, forecast, SHAP values, or preferences. It may choose only from a deterministic eligibility list. Unsupported actions or numerical claims fall back to a deterministic recommendation. Review the cited model evidence alongside generated wording.
+Preferences affect action eligibility. Declining engagement and matching content preferences can enable personalized content or a learning path; repeated support requests prioritize human support and suppress promotions; stable learners receive no contact by default. SHAP describes model contributions and cannot establish causes. Recommendation wording remains separate from verified evidence in the interface.
 
-## Ollama setup
-
-Install and start Ollama separately, then make the configured model available locally:
+The optional local provider uses Ollama:
 
 ```powershell
 ollama pull gpt-oss:20b
 ```
 
-Defaults are `OLLAMA_URL=http://localhost:11434` and `OLLAMA_MODEL=gpt-oss:20b`. Copy `.env.example` to `.env` and edit it if you use another local endpoint, model, or app port. `CHURNSCOPE_PORT` defaults to 8000. Ollama is optional; the app displays **“Local LLM unavailable — deterministic recommendation mode.”** when it cannot use the local model.
+Defaults are `OLLAMA_URL=http://localhost:11434` and `OLLAMA_MODEL=gpt-oss:20b`. Copy `.env.example` to `.env` to change the endpoint, model, or `CHURNSCOPE_PORT` (default 8000). Ollama is optional; deterministic summaries and recommendations remain available.
 
-## Architecture
+## Academic notebook
 
-```text
-scripts/generate_data.py ──> data/*.csv
-scripts/export_models.py ──> models/pipeline.joblib + metrics.json
-notebooks/churnscope_pipeline.ipynb ──> shared training/export pipeline
-run.py ──> FastAPI backend ──> vanilla HTML/CSS/JS frontend
-                         └──> optional local Ollama provider
-```
+Open [notebooks/churnscope_pipeline.ipynb](notebooks/churnscope_pipeline.ipynb) in Jupyter and run top to bottom. Its presentation sequence is problem definition, synthetic data, cutoff/target, EDA, feature engineering, segmentation, classification, forecasting, SHAP, preferences, agent decisions, limitations, and exported artifacts. It calls the same exporter used by FastAPI.
 
-The backend stays intentionally small: no account system, database, microservices, container stack, cloud deployment, or real message delivery.
+## Important limitations
+
+- Synthetic data, generated from a small population, cannot establish performance on real learners.
+- Behavioral clusters overlap; low silhouette scores indicate weak separation.
+- Forecast error remains non-trivial, particularly for low-activity or changing series. MAPE is especially unstable near zero usage.
+- SHAP describes the model and is not causal.
+- Agent recommendations and action execution are simulated. No real messages are sent.
+- A local LLM may still produce language errors; evidence is shown for review and unsupported output falls back to deterministic behavior.
 
 ## API
 
@@ -93,11 +93,8 @@ The backend stays intentionally small: no account system, database, microservice
 - `GET /api/customer/{customer_id}/explanation`
 - `POST /api/customer/{customer_id}/chat`
 - `POST /api/customer/{customer_id}/recommend`
+- `GET /api/customer/{customer_id}/eligible-actions`
 - `POST /api/customer/{customer_id}/execute-action` (simulated)
 - `GET /api/model-metrics`
 
 Interactive API docs: [http://localhost:8000/docs](http://localhost:8000/docs).
-
-## Limitations
-
-The population is synthetic, small, and designed for an interpretable academic walkthrough. Holdout scores measure this generated population and do not establish performance on real learners. Forecast errors are high for low-activity series, and the uncertainty band is empirical. The local LLM can still make language errors; evidence remains visible so recommendations can be reviewed.

@@ -13,3 +13,5 @@
 .response-bubble{animation:response-in .22s ease-out both}
 @keyframes bar-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes response-in{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+
+.action-evidence{border:1px solid rgba(116,224,193,.16);border-radius:5px;padding:6px 8px;margin-bottom:8px;background:rgba(116,224,193,.025)}.action-evidence small,.action-ai-label{display:block;font:7px var(--mono);letter-spacing:1px;color:#7cae9f;margin-bottom:4px}.action-evidence ul{margin:0;padding-left:12px;color:#9babb9;font-size:7px;line-height:1.55}.action-ai-label{color:#b69b7c;margin:7px 0 4px}

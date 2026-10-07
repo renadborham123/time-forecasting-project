@@ -3,31 +3,192 @@
     "selected_model": "Logistic Regression",
     "holdout_size": 75,
     "customer_split": true,
+    "prediction_cutoff_week": 28,
+    "target": "will_churn_next_4_weeks",
     "models": {
       "Logistic Regression": {
         "accuracy": 0.7866666666666666,
-        "precision": 0.6875,
-        "recall": 0.7857142857142857,
-        "f1": 0.7333333333333333,
-        "roc_auc": 0.8799392097264438
+        "precision": 0.6571428571428571,
+        "recall": 0.8518518518518519,
+        "f1": 0.7419354838709677,
+        "roc_auc": 0.8904320987654321
       },
       "Random Forest": {
-        "accuracy": 0.7733333333333333,
-        "precision": 0.7391304347826086,
-        "recall": 0.6071428571428571,
-        "f1": 0.6666666666666666,
-        "roc_auc": 0.8297872340425533
+        "accuracy": 0.7866666666666666,
+        "precision": 0.6774193548387096,
+        "recall": 0.7777777777777778,
+        "f1": 0.7241379310344828,
+        "roc_auc": 0.8503086419753088
       }
     }
   },
   "clustering": {
     "selected_model": "K-Means",
     "kmeans_clusters": 5,
-    "kmeans_silhouette": 0.17498994036745907,
-    "dbscan_clusters": 2,
-    "dbscan_noise_points": 233,
-    "dbscan_silhouette": 0.19330833904516462,
-    "selection_reason": "K-Means gives every customer a stable segment for the map; DBSCAN is compared as a density-based alternative."
+    "kmeans_silhouette": 0.1657590718924063,
+    "dbscan_clusters": 1,
+    "dbscan_noise_points": 259,
+    "dbscan_silhouette": null,
+    "selection_reason": "K-Means provides complete, stable coverage for map visualization and behavioral profiling; the silhouette score indicates overlapping groups, and DBSCAN remains a density-based comparison.",
+    "cluster_stats": {
+      "0": {
+        "customers": 80,
+        "recent_sessions": 4.496875,
+        "recent_usage_minutes": 124.529375,
+        "usage_trend": -22.3071875,
+        "sessions_trend": -0.753125,
+        "active_days_trend": -0.5,
+        "usage_slope_recent": -4.7041815476190525,
+        "sessions_slope_recent": -0.17366071428571445,
+        "engagement_volatility": 76.71392651797788,
+        "days_since_last_activity": 16.490625,
+        "active_days": 3.2129464285714286,
+        "lesson_completion_rate": 0.45013611860513664
+      },
+      "1": {
+        "customers": 31,
+        "recent_sessions": 9.548387096774194,
+        "recent_usage_minutes": 281.24758064516135,
+        "usage_trend": 114.98629032258066,
+        "sessions_trend": 3.2338709677419355,
+        "active_days_trend": 1.8064516129032258,
+        "usage_slope_recent": 24.298579109062974,
+        "sessions_slope_recent": 0.6332565284178183,
+        "engagement_volatility": 112.6774732335179,
+        "days_since_last_activity": 9.330645161290322,
+        "active_days": 3.942396313364055,
+        "lesson_completion_rate": 0.4642296026273244
+      },
+      "2": {
+        "customers": 59,
+        "recent_sessions": 8.597457627118644,
+        "recent_usage_minutes": 232.62118644067797,
+        "usage_trend": -48.07161016949152,
+        "sessions_trend": -1.326271186440678,
+        "active_days_trend": -0.5042372881355932,
+        "usage_slope_recent": -7.742998385795004,
+        "sessions_slope_recent": -0.22134786117836994,
+        "engagement_volatility": 98.40476129027952,
+        "days_since_last_activity": 8.572033898305085,
+        "active_days": 4.591404358353511,
+        "lesson_completion_rate": 0.4749544223992567
+      },
+      "3": {
+        "customers": 85,
+        "recent_sessions": 1.1764705882352942,
+        "recent_usage_minutes": 38.46588235294117,
+        "usage_trend": -5.33,
+        "sessions_trend": -0.21764705882352942,
+        "active_days_trend": -0.041176470588235294,
+        "usage_slope_recent": -1.311428571428573,
+        "sessions_slope_recent": -0.05798319327731096,
+        "engagement_volatility": 33.48646769285466,
+        "days_since_last_activity": 43.37647058823529,
+        "active_days": 1.937394957983193,
+        "lesson_completion_rate": 0.4582201880193217
+      },
+      "4": {
+        "customers": 45,
+        "recent_sessions": 13.36111111111111,
+        "recent_usage_minutes": 374.6816666666667,
+        "usage_trend": 38.225555555555566,
+        "sessions_trend": 1.2055555555555555,
+        "active_days_trend": 0.1388888888888889,
+        "usage_slope_recent": 8.197037037037028,
+        "sessions_slope_recent": 0.24100529100529047,
+        "engagement_volatility": 115.466093037717,
+        "days_since_last_activity": 6.177777777777778,
+        "active_days": 5.515079365079365,
+        "lesson_completion_rate": 0.46120716955672947
+      }
+    },
+    "cluster_naming_rationale": {
+      "4": {
+        "label": "Power Users",
+        "rule": "highest standardized recent usage and sessions",
+        "profile": {
+          "recent_sessions": 13.36111111111111,
+          "recent_usage_minutes": 374.6816666666667,
+          "usage_trend": 38.225555555555566,
+          "sessions_trend": 1.2055555555555555,
+          "active_days_trend": 0.1388888888888889,
+          "usage_slope_recent": 8.197037037037028,
+          "sessions_slope_recent": 0.24100529100529047,
+          "engagement_volatility": 115.466093037717,
+          "days_since_last_activity": 6.177777777777778,
+          "active_days": 5.515079365079365,
+          "lesson_completion_rate": 0.46120716955672947
+        }
+      },
+      "0": {
+        "label": "Core Engaged",
+        "rule": "remaining cluster after behavioral extremes are assigned",
+        "profile": {
+          "recent_sessions": 4.496875,
+          "recent_usage_minutes": 124.529375,
+          "usage_trend": -22.3071875,
+          "sessions_trend": -0.753125,
+          "active_days_trend": -0.5,
+          "usage_slope_recent": -4.7041815476190525,
+          "sessions_slope_recent": -0.17366071428571445,
+          "engagement_volatility": 76.71392651797788,
+          "days_since_last_activity": 16.490625,
+          "active_days": 3.2129464285714286,
+          "lesson_completion_rate": 0.45013611860513664
+        }
+      },
+      "2": {
+        "label": "Fading Engagement",
+        "rule": "most negative combined usage, session, and active-day trends among remaining clusters",
+        "profile": {
+          "recent_sessions": 8.597457627118644,
+          "recent_usage_minutes": 232.62118644067797,
+          "usage_trend": -48.07161016949152,
+          "sessions_trend": -1.326271186440678,
+          "active_days_trend": -0.5042372881355932,
+          "usage_slope_recent": -7.742998385795004,
+          "sessions_slope_recent": -0.22134786117836994,
+          "engagement_volatility": 98.40476129027952,
+          "days_since_last_activity": 8.572033898305085,
+          "active_days": 4.591404358353511,
+          "lesson_completion_rate": 0.4749544223992567
+        }
+      },
+      "3": {
+        "label": "Low Activity",
+        "rule": "lowest standardized recent usage and sessions",
+        "profile": {
+          "recent_sessions": 1.1764705882352942,
+          "recent_usage_minutes": 38.46588235294117,
+          "usage_trend": -5.33,
+          "sessions_trend": -0.21764705882352942,
+          "active_days_trend": -0.041176470588235294,
+          "usage_slope_recent": -1.311428571428573,
+          "sessions_slope_recent": -0.05798319327731096,
+          "engagement_volatility": 33.48646769285466,
+          "days_since_last_activity": 43.37647058823529,
+          "active_days": 1.937394957983193,
+          "lesson_completion_rate": 0.4582201880193217
+        }
+      },
+      "1": {
+        "label": "Irregular Users",
+        "rule": "highest engagement volatility among remaining clusters",
+        "profile": {
+          "recent_sessions": 9.548387096774194,
+          "recent_usage_minutes": 281.24758064516135,
+          "usage_trend": 114.98629032258066,
+          "sessions_trend": 3.2338709677419355,
+          "active_days_trend": 1.8064516129032258,
+          "usage_slope_recent": 24.298579109062974,
+          "sessions_slope_recent": 0.6332565284178183,
+          "engagement_volatility": 112.6774732335179,
+          "days_since_last_activity": 9.330645161290322,
+          "active_days": 3.942396313364055,
+          "lesson_completion_rate": 0.4642296026273244
+        }
+      }
+    }
   },
   "forecasting": {
     "selected_model": "exp_smoothing",
@@ -36,24 +197,63 @@
       24,
       28
     ],
+    "forecast_horizon": 4,
+    "selection_rule": "lowest MAE; RMSE and sMAPE are secondary evidence",
     "metrics": {
       "naive": {
-        "mae": 103.72977777777777,
-        "rmse": 143.79628845078798,
-        "mape": 133.92868340305304
+        "mae": 98.96444444444444,
+        "rmse": 138.0397839795148,
+        "smape": 75.9395368371634,
+        "mase": 0.8808921940243597,
+        "mape": 161.8339772063814,
+        "fallback_folds": 0,
+        "evaluation_points": 3600
       },
       "exp_smoothing": {
-        "mae": 88.81702564332774,
-        "rmse": 121.55847353260442,
-        "mape": 138.18073847969058
+        "mae": 85.5300068573319,
+        "rmse": 119.61255487982665,
+        "smape": 68.47464708117319,
+        "mase": 0.7717338157924484,
+        "mape": 174.07438714496044,
+        "fallback_folds": 0,
+        "evaluation_points": 3600
+      },
+      "arima": {
+        "mae": 92.77816313824519,
+        "rmse": 128.93379438194262,
+        "smape": 71.94076959644687,
+        "mase": 0.8283825067954464,
+        "mape": 168.45820009366074,
+        "fallback_folds": 0,
+        "evaluation_points": 3600
+      },
+      "lag_regression": {
+        "mae": 97.31221889890821,
+        "rmse": 129.5478597677,
+        "smape": 70.95168455928163,
+        "mase": 0.8785934199561679,
+        "mape": 233.83644207768373,
+        "fallback_folds": 0,
+        "evaluation_points": 3600
       }
     },
-    "interval_abs_error_p90": 207.4393846187376
+    "interval_abs_error_p90": 190.71655197440134,
+    "fallback_order": [
+      "exp_smoothing",
+      "naive"
+    ]
   },
   "dataset": {
     "customers": 300,
     "weekly_records": 9600,
-    "churn_rate": 0.38,
-    "weeks_per_customer": 32
+    "churn_rate": 0.36666666666666664,
+    "weeks_per_customer": 32,
+    "prediction_cutoff_week": 28,
+    "outcome_window_weeks": [
+      29,
+      30,
+      31,
+      32
+    ]
   }
 }
