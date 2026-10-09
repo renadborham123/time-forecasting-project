@@ -1,10 +1,32 @@
 (() => {
- let history=[],busy=false;
- const body=()=>document.querySelector('#chat-body');
- function pushUser(text){const node=document.createElement('div');node.className='user-bubble';node.textContent=text;body().append(node);body().scrollTop=body().scrollHeight;history.push({role:'user',content:text})}
- function typing(){const node=document.createElement('div');node.className='response-bubble';node.id='typing';node.innerHTML='<div class="agent-small-icon">✳</div><div class="typing"><i></i><i></i><i></i></div>';body().append(node);body().scrollTop=body().scrollHeight}
- function respond(text){document.querySelector('#typing')?.remove();const node=document.createElement('div');node.className='response-bubble';node.innerHTML='<div class="agent-small-icon">✳</div><div class="response-text"></div>';const out=node.querySelector('.response-text');body().append(node);let i=0;const timer=setInterval(()=>{out.textContent+=text.slice(i,i+3);i+=3;body().scrollTop=body().scrollHeight;if(i>=text.length)clearInterval(timer)},8);history.push({role:'assistant',content:text})}
- async function send(text){if(!text.trim()||!window.selectedCustomer||busy)return;busy=true;pushUser(text);typing();document.querySelector('#send-chat').disabled=true;try{const res=await fetch(`/api/customer/${window.selectedCustomer}/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:text,conversation:history.slice(0,-1).slice(-8)})});const data=await res.json();document.querySelector('#agent-status').textContent=data.status;respond(data.answer);if(data.recommendation){window.showRecommendation?.(data.recommendation);window.renderEvidenceTrace?.(6)}}catch{respond('The local API could not be reached. Please check that ChurnScope AI is running.')}finally{busy=false;document.querySelector('#send-chat').disabled=false}}
- function reset(customer){history=[];window.renderEvidenceTrace?.(-1);body().innerHTML=`<div class="agent-message"><div class="agent-small-icon">✳</div><div><div class="message-author">RETENTION AGENT <span>· READY</span></div><p>Customer <b>${customer}</b> is selected. I can explain their churn evidence, forecast, preferences, and eligible retention actions.</p></div></div><div class="suggestion-wrap"><small>TRY ASKING</small><button class="suggestion">Why is this customer at risk?</button><button class="suggestion">Show me the evidence</button><button class="suggestion">What should we do?</button><button class="suggestion">Write a personalized message</button></div>`;document.querySelector('#agent-status').textContent='Evidence context loaded';body().querySelectorAll('.suggestion').forEach(b=>b.onclick=()=>send(b.textContent));}
- window.Chat={reset,send,bind(){window.renderEvidenceTrace?.(-1);document.querySelector('#chat-form').addEventListener('submit',e=>{e.preventDefault();const input=document.querySelector('#chat-input');const value=input.value;input.value='';send(value)});document.querySelector('#chat-input').addEventListener('input',e=>{e.currentTarget.style.height='auto';e.currentTarget.style.height=Math.min(90,e.currentTarget.scrollHeight)+'px';document.querySelector('#send-chat').disabled=!e.currentTarget.value.trim()||!window.selectedCustomer});document.querySelectorAll('.suggestion').forEach(b=>b.onclick=()=>send(b.textContent))}};
+  let history=[],busy=false,controller=null,generation=0;
+  const $=s=>document.querySelector(s),messages=()=>$('#chat-messages');
+  function controls(){const available=!!window.selectedCustomer&&!$('#chat-input').disabled;$('#send-chat').disabled=busy||!available||!$('#chat-input').value.trim();document.querySelectorAll('.suggestion').forEach(b=>b.disabled=busy||!available);$('#draft-message').disabled=busy||!available;$('#chat-form').setAttribute('aria-busy',String(busy));}
+  function reveal(){$('#chat-body').hidden=false;$('#chat-panel').classList.add('conversation-started');}
+  function scroll(){messages().lastElementChild?.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+  function message(text,role){
+    reveal();const node=document.createElement('div');node.className=role==='user'?'user-bubble':'response-bubble';
+    if(role==='user')node.textContent=text;
+    else{const label=document.createElement('span');label.className='message-author';label.textContent='ChurnScope assistant';const content=document.createElement('div');content.className='response-text';content.dir='auto';content.textContent=text;node.append(label,content);}
+    messages().append(node);scroll();
+  }
+  function typing(){const node=document.createElement('div');node.className='response-bubble';node.id='typing';node.setAttribute('aria-label','Preparing a response from learner evidence');node.innerHTML='<div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>';messages().append(node);scroll();}
+  async function send(text,quick=false){
+    text=text.trim();if(!text||!window.selectedCustomer||busy||$('#chat-input').disabled)return;
+    const customer=window.selectedCustomer,version=generation;busy=true;controller=new AbortController();message(text,'user');history.push({role:'user',content:text});typing();controls();$('#agent-status').textContent=quick?'Reading verified learner evidence…':'Local agent is answering…';
+    try{
+      const data=await window.api('/api/customer/'+customer+'/chat',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json'},body:JSON.stringify({question:text,conversation:history.slice(0,-1).slice(-8),quick})});
+      if(version!==generation||customer!==window.selectedCustomer)return;
+      $('#typing')?.remove();message(data.answer,'assistant');history.push({role:'assistant',content:data.answer});$('#agent-status').textContent=data.status;
+      if(data.recommendation)window.showRecommendation?.(data.recommendation,customer);
+    }catch(error){if(version!==generation)return;$('#typing')?.remove();message(error.name==='AbortError'?'The request was interrupted. Try a suggested question.':'The answer could not be loaded. Please try again.','assistant');$('#agent-status').textContent='Please try again';}
+    finally{if(version===generation){busy=false;controller=null;controls();}}
+  }
+  function reset(customer){history=[];generation++;controller?.abort();controller=null;busy=false;$('#chat-input').value='';$('#chat-input').disabled=true;messages().innerHTML='';$('#chat-body').hidden=true;$('#chat-panel').classList.remove('conversation-started');$('#agent-status').textContent=customer?'Ready to discuss '+customer:'Ready';controls();}
+  window.Chat={reset,send,refresh:controls,bind(){
+    $('#chat-form').addEventListener('submit',e=>{e.preventDefault();const input=$('#chat-input'),value=input.value;if(value.trim()&&!busy){input.value='';send(value);}});
+    $('#chat-input').addEventListener('input',controls);
+    $('#chat-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();$('#chat-form').requestSubmit();}});
+    document.querySelectorAll('.suggestion').forEach(b=>b.onclick=()=>send(b.dataset.question,true));
+  }};
 })();

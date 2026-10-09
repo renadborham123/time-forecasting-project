@@ -12,7 +12,7 @@ ChurnScope AI is an academic demonstration for a subscription learning platform.
 - **SHAP:** Which features most influenced the classifier's prediction? Contributions explain model output; they are not percentages, causes, or proof of causality.
 - **Agent:** What intervention is reasonable based on verified evidence and learner preferences? The agent chooses only from a deterministic eligible-action list. Simulated execution sends no real messages.
 
-Clustering, classification, forecasting, and LLM reasoning are separate tasks. Map position represents behavioral similarity; risk appearance comes from the churn classifier.
+Clustering, classification, forecasting, and LLM reasoning are separate tasks. The grouped map illustrates segment membership; the optional behavior-similarity view uses PCA coordinates. Risk appearance comes from the churn classifier.
 
 ## Quick start
 
@@ -36,12 +36,15 @@ python scripts/export_models.py
 
 ## Demo walkthrough
 
-1. Press **Segment customers** to reveal exploratory behavioral groups for 300 learners.
-2. Press **Run classification** to add model-derived risk tiers.
-3. Filter by risk or segment, or choose C001–C004 from the demo selector.
-4. Inspect churn probability, the week 33–36 usage forecast, customer-specific SHAP contributions, and recorded preferences.
-5. Ask the agent for evidence or an eligible recommendation. Without Ollama, a deterministic policy still works.
-6. **Execute action** records a simulated in-memory event only; it never sends email or messages.
+1. **Load Data:** explicitly fetch the system's synthetic sample: 300 learners with 32 weeks of activity. The dots appear in a randomly scattered view. Reloading the sample changes the visual placement, not the saved dataset or evaluation.
+2. **Segment:** run the saved K-Means model. Dots receive segment colors progressively, then move into irregular outlined clouds. Select a group to highlight it. Cloud spacing illustrates membership; **Behavior similarity** uses the actual PCA coordinates instead.
+3. **Classify:** run the saved churn classifier. Group positions remain fixed while dots receive risk colors. Select a dot to choose a learner for forecasting.
+4. **Forecast:** follow the simple history → evaluated method → next four weeks story. The saved method winner is fitted to the selected learner. Review weeks 33–36, uncertainty, optional SHAP contributions, and preferences. C001–C004 provide contrasting example histories.
+5. **Ask & act:** use the centered chat to explain the forecast, understand risk, or choose a next step. Suggested questions answer instantly from verified evidence and policy; custom questions use Ollama with a deterministic fallback. Recommendations and drafts appear inside the conversation.
+
+The single primary button advances the workflow. Three named guides follow the relevant UI: the green **Data agent** handles loading and segmentation, the blue **Risk agent** explains classification, and the pink **Forecast agent** covers forecasting and the conversation. Their soft round characters blink, glance, and smile; each stage opens a matching tinted popup automatically. Close and reopen it using the character. Popup actions invoke the same workflow button. The optional LLM rewrites verified stage context; unavailable or unverified output falls back to an explicitly labeled workflow explanation. Model activity indicators distinguish inference from visualizing its result. Reduced-motion preferences skip dot and character animations.
+
+**Simulate action** records an eligible in-memory event only; it never sends messages. **Model details** opens evaluation separately from the workflow.
 
 ## Dataset and methodology
 
@@ -88,6 +91,7 @@ Open [notebooks/churnscope_pipeline.ipynb](notebooks/churnscope_pipeline.ipynb) 
 - `GET /api/customers`
 - `POST /api/segment`
 - `POST /api/classify`
+- `POST /api/pipeline-guide` (`stage` 0–4, optional `completed` and `customer_id`)
 - `GET /api/customer/{customer_id}`
 - `GET /api/customer/{customer_id}/forecast`
 - `GET /api/customer/{customer_id}/explanation`
@@ -98,3 +102,5 @@ Open [notebooks/churnscope_pipeline.ipynb](notebooks/churnscope_pipeline.ipynb) 
 - `GET /api/model-metrics`
 
 Interactive API docs: [http://localhost:8000/docs](http://localhost:8000/docs).
+
+Chat accepts `question`, optional `conversation`, and optional `quick` (default `false`). `quick: true` answers example evidence/action questions from customer-specific model outputs and the eligibility policy without calling the local LLM.

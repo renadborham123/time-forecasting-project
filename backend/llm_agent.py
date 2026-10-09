@@ -5,9 +5,10 @@ import json
 import re
 import urllib.error
 import urllib.request
+from functools import lru_cache
 
 from .config import OLLAMA_URL, OLLAMA_MODEL
-from .customer_service import profile
+from .customer_service import profile, load_state
 from .forecasting import forecast
 from .explainability import explanation
 from .decision_policy import eligible_actions, deterministic_recommendation, CATALOG
@@ -227,7 +228,112 @@ def _render_recommendation(result, context):
         f"- Action: {result['action_label']}\n- Reason: {result['reason']}\n- Personalized message: {result['message']}"
 
 
-def answer(customer_id, question, conversation=None):
+def _quick_answer(customer_id, question):
+    """Answer example questions directly from verified, customer-specific evidence."""
+    context = _context(customer_id)
+    question_lower = question.lower()
+    action_question = any(word in question_lower for word in (
+        "recommend", "should we", "what should", "action", "message", "draft",
+        "intervention", "رسالة", "رساله", "نعمل", "توصية", "اقترح",
+    ))
+    if action_question:
+        result = {**deterministic_recommendation(customer_id),
+                  "verified_evidence": _evidence_lines(context)}
+        if any(word in question_lower for word in ("message", "draft", "رسالة", "رساله")):
+            text = (f"Suggested draft for {customer_id}:\n\n{result['message']}\n\n"
+                    "This is a draft for review. No message has been sent.") if result["message"] else (
+                        f"No retention message is recommended for {customer_id}. {result['reason']}"
+                    )
+        else:
+            text = (f"For {customer_id}, I recommend: {result['action_label']}.\n\n"
+                    f"{result['reason']}\n\nReview the recommendation before simulating the action.")
+        return {"answer": text, "recommendation": result,
+                "status": "Instant policy answer"}
+
+    ml, fc = context["ml_model"], context["forecast"]
+    if any(word in question_lower for word in ("forecast", "usage", "توقع", "استخدام")):
+        names = {"exp_smoothing": "Exponential Smoothing", "naive": "Last-value baseline",
+                 "arima": "ARIMA", "lag_regression": "Lag Regression"}
+        method = names.get(fc["model_used"], fc["model_used"])
+        text = (f"Here’s the forecast story for {customer_id}.\n\n"
+                f"We read the learner’s 32 weeks of recorded activity. Four methods were compared "
+                f"on earlier time windows; the saved winner is {names.get(fc['selected_global_model'], fc['selected_global_model'])}. "
+                f"The method used for this learner is {method}, fitted to the most recent 16 weeks.\n\n"
+                f"Weekly usage is forecast to move from "
+                f"{fc['current_usage_minutes']:.0f} to {fc['week_4_forecast_minutes']:.0f} minutes "
+                f"by forecast week 4 ({fc['expected_change_pct']:+.0f}%), compared with the average "
+                "of the last four observed weeks.\n\n"
+                "The solid line is history; the dashed line is the projection. The shaded range "
+                "comes from errors in earlier forecast tests. It reminds us that the direction "
+                "is an estimate, not a promise. The forecast projects usage; the separate classifier estimates churn risk.")
+    else:
+        contributions = "\n".join(
+            f"• {item['label']}: {item['contribution']:+.3f} model contribution"
+            for item in context["shap"][:3]
+        )
+        text = (f"{customer_id} has an estimated {ml['churn_probability']:.1%} churn probability "
+                f"and is classified as {ml['risk_tier']}.\n\n"
+                f"The strongest listed prediction drivers are:\n{contributions}\n\n"
+                "Positive contributions raise the classifier score; negative contributions lower it. "
+                "They describe model output, not causes. The classifier uses behavior through week 28 "
+                "to estimate churn during weeks 29–32.")
+    return {"answer": text, "recommendation": None,
+            "status": "Instant evidence answer"}
+
+
+@lru_cache(maxsize=64)
+def pipeline_guide(stage, completed=False, customer_id=None):
+    """Explain a known UI stage; the client owns and validates all action buttons."""
+    bundle, history, _, _, metrics, predictions = load_state()
+    if customer_id:
+        profile(customer_id)  # Reject unknown IDs before attempting a provider call.
+    count, weeks = len(predictions), int(history.week.max())
+    classifier = metrics["classification"]["selected_model"]
+    selected = metrics["forecasting"]["selected_model"]
+    names = {"exp_smoothing": "Exponential Smoothing", "naive": "Last-value baseline",
+             "arima": "ARIMA", "lag_regression": "Lag Regression"}
+    instructions = [
+        f"Load {count} synthetic learners, each with {weeks} recorded weeks. Each dot represents one learner. We’ll group their habits, estimate churn risk, then forecast usage.",
+        "K-Means assigns behavior groups. Watch the dots take their segment colors, then gather into five separate clouds. Their spacing is for readability; the groups can overlap in real behavior.",
+        f"{classifier} estimates churn risk using behavior through week 28. The dots stay in their behavior groups; their colors change to show risk. Next we’ll forecast a learner’s usage.",
+        f"Read the {weeks}-week history, then forecast the next four weeks. Four methods were evaluated on earlier windows; {names.get(selected, selected)} was selected and fits the latest 16 weeks. Look at the dashed line and its shaded uncertainty range.",
+        "Choose a suggested question to understand the forecast, review risk evidence, or select an eligible next step. You can also type a question. Recommendations and message drafts stay inside the conversation; actions are simulated.",
+    ]
+    if completed and stage == 1:
+        instructions[1] = "The five behavior groups are ready. Same segment color, same outlined cloud. Next, classify churn risk for the same learners; the group positions will stay in place."
+    if completed and stage == 2:
+        instructions[2] = "The classifier’s risk estimates are ready. Choose a dot to use that learner, or explore C003’s forecast as an example. Forecasting will project usage for the next four weeks."
+    if stage == 3 and completed and customer_id:
+        result = forecast(customer_id)
+        instructions[3] = (
+            f"For {customer_id}, {names.get(result['model_used'], result['model_used'])} projects "
+            f"{result['expected_change_pct']:+.0f}% usage change by forecast week 4. "
+            "The solid line is the observed history; the dashed line is the forecast. "
+            "The shaded range shows uncertainty. Open the assistant to discuss this result."
+        )
+    text = instructions[stage]
+    facts = {"stage": stage, "completed": completed, "verified_explanation": text,
+             "next_action": ["Load Data", "Classify risk" if completed else "Segment learners",
+                             "Explore forecasts" if completed else "Classify risk",
+                             "Open assistant" if completed else "Run forecast", "Ask about the forecast"][stage]}
+    try:
+        explanation_text = _ollama([
+            {"role": "system", "content": "You are a friendly UI guide. Rewrite only the supplied verified explanation in 35–55 words of simple English. Describe what the user sees and the next action. Do not add facts, numbers, causal claims, hidden reasoning, markdown, URLs, or claims that an action ran. Never invent a forecast or a delivered message."},
+            {"role": "user", "content": json.dumps(facts)},
+        ], structured=False).strip()
+        allowed_numbers = set(_NUMBER_PATTERN.findall(text)) | {"5", "4", "32", "28", str(count)}
+        if not explanation_text or len(explanation_text.split()) > 75 or any(
+            number not in allowed_numbers for number in _NUMBER_PATTERN.findall(explanation_text)
+        ):
+            raise ValueError("Unverified guide output")
+        return {"explanation": explanation_text, "provider": OLLAMA_MODEL, "fallback": False}
+    except Exception:
+        return {"explanation": text, "provider": "verified workflow", "fallback": True}
+
+
+def answer(customer_id, question, conversation=None, quick=False):
+    if quick:
+        return _quick_answer(customer_id, question)
     question_lower = question.lower()
     if any(k in question_lower for k in ("recommend", "should we", "what should", "action", "write a message", "personalized message", "intervention")):
         context = _context(customer_id)
